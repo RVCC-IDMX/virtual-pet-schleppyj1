@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Pet Simulator: Assignment Instructions</title>
+  <link rel="shortcut icon" href="./favicon.png" type="image/png">
+  <link rel="stylesheet" href="header.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Additional styles for this assignment page */
+    .step-container {
+      margin-bottom: 30px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .step-header {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .step-header h3 {
+      margin: 0;
+      color: #4caf50;
+    }
+
+    .step-content {
+      padding: 15px;
+    }
+
+    .code-sample {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 25px 0;
+      border: 1px solid #ddd;
+    }
+
+    pre {
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin: 20px 0;
+      border-left: 4px solid #4caf50;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .tip {
+      background-color: #e8f5e9;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      border-left: 4px solid #4caf50;
+    }
+
+    .warning {
+      background-color: #fff3cd;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      border-left: 4px solid #ffc107;
+    }
+
+    .grading-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    .grading-table th,
+    .grading-table td {
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+    }
+
+    .grading-table th {
+      background-color: #f2f2f2;
+      text-align: left;
+    }
+
+    .grading-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <nav class="site-nav">
+        <div class="logo">
+          <a href="index.html">
+            <img src="./favicon.png" alt="pet icon" class="logo-img">
+            <span>Virtual Pet Simulator</span>
+          </a>
+        </div>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="assignment.html" class="nav-link">Assignment</a></li>
+          <li><a href="constructors.html" class="nav-link">Constructors</a></li>
+          <li><a href="prototypes.html" class="nav-link">Prototypes</a></li>
+          <li><a href="state-management.html" class="nav-link">State Management</a></li>
+          <li><a href="dom-manipulation.html" class="nav-link">DOM Manipulation</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="header">
+    <h1>Virtual Pet Simulator: Assignment Instructions</h1>
+    <p>Implement a virtual pet using JavaScript constructor functions, prototype methods, and DOM manipulation</p>
+  </div>
+
+  <div class="card">
+    <h2>Assignment Overview</h2>
+    <p>In this assignment, you'll implement the core functionality for a Virtual Pet Simulator using JavaScript
+      constructor functions and prototype methods. Your goal is to create an interactive pet that responds to user
+      actions, changes mood over time, and displays different appearances based on its state.</p>
+
+    <h3>Learning Objectives</h3>
+    <ul>
+      <li>Understand and implement JavaScript constructor functions</li>
+      <li>Create and use prototype methods for shared functionality</li>
+      <li>Implement state management for tracking object properties</li>
+      <li>Use DOM manipulation to update the user interface</li>
+      <li>Handle user input and events for interactivity</li>
+      <li>Work with timers for time-based state changes</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Project Overview</h2>
+    <p>The Virtual Pet Simulator consists of several key components:</p>
+    <ol>
+      <li>A <code>Pet</code> constructor function that creates pet objects with properties like name, type, and mood
+      </li>
+      <li>Prototype methods for feeding, state updating, speech, and appearance generation</li>
+      <li>Application code for handling UI interactions and updates</li>
+      <li>A time-based update system that changes the pet's mood over time</li>
+    </ol>
+
+    <h3>Prerequisites</h3>
+    <ul>
+      <li>Basic understanding of JavaScript functions and objects</li>
+      <li>Familiarity with DOM manipulation concepts</li>
+      <li>The provided starter files (HTML and CSS are complete, you'll implement the JavaScript)</li>
+    </ul>
+
+    <h3>Files Provided</h3>
+    <ul>
+      <li><strong>index.html</strong>: The complete HTML structure for the simulator interface</li>
+      <li><strong>style.css</strong>: The complete CSS styling for the application</li>
+      <li><strong>pet.js</strong>: A skeleton file with TODOs where you'll implement the Pet constructor and prototype
+        methods</li>
+      <li><strong>app.js</strong>: A skeleton file with TODOs where you'll implement the application logic and UI
+        interactions</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="step-container">
+      <div class="step-header">
+        <h3>Step 1: Implement the Pet Constructor</h3>
+      </div>
+      <div class="step-content">
+        <p>First, you'll implement the <code>Pet</code> constructor function to initialize pet objects with necessary
+          properties.</p>
+
+        <h4>Tasks:</h4>
+        <ol>
+          <li>Open <code>pet.js</code> and locate the <code>Pet</code> constructor function</li>
+          <li>Implement the constructor to initialize properties like <code>type</code>, <code>name</code>,
+            <code>moodLevel</code>, <code>state</code>, <code>lastFed</code>, and speech-related properties
+          </li>
+          <li>Call <code>updateAppearance()</code> at the end to set the initial appearance</li>
+        </ol>
+
+        <div class="code-sample">
+          <h4>Code Guidelines:</h4>
+          <pre><code>/**
+ * Pet constructor function
+ * Creates a virtual pet with basic properties and methods
+ *
+ * @param {string} type - The type of pet from PetTypes
+ * @param {string} name - The name of the pet
+ */
+function Pet(type, name) {
+  // TODO: Initialize basic properties
+  this.type = type || PetTypes.COW;
+  this.name = name || 'Pet';
+
+  // TODO: Initialize mood tracking properties
+  this.moodLevel = 80; // Start with a happy pet (0-100 scale)
+  this.state = States.HAPPY;
+  this.lastFed = new Date(); // Track when the pet was last fed
+  this.created = new Date(); // Track when the pet was created
+
+  // TODO: Initialize speech-related properties
+  this.isSpeaking = false;
+  this.speechText = '';
+  this.speechTimeout = null;
+
+  // TODO: Generate initial appearance
+  this.updateAppearance();
+}</code></pre>
+        </div>
+
+        <h4>Testing:</h4>
+        <ol>
+          <li>Ensure your code initializes all required properties</li>
+          <li>Verify default values are provided when parameters are missing</li>
+          <li>Check that <code>updateAppearance()</code> is called to set the initial appearance</li>
+        </ol>
+
+        <div class="tip">
+          <p><strong>Implementation Tip:</strong> Use the <code>||</code> operator for providing default values, as
+            shown in the example. This ensures the pet will have valid values even if <code>type</code> or
+            <code>name</code> are not provided.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="step-container">
+      <div class="step-header">
+        <h3>Step 2: Implement Basic Prototype Methods</h3>
+      </div>
+      <div class="step-content">
+        <p>Next, implement the core prototype methods that will be shared across all pet instances.</p>
+
+        <h4>Tasks:</h4>
+        <ol>
+          <li>Implement <code>Pet.prototype.feed()</code> to update the pet's mood when fed</li>
+          <li>Implement <code>Pet.prototype.isHungry()</code> to check if the pet is hungry based on time since last
+            feeding</li>
+          <li>Implement <code>Pet.prototype.updateState()</code> to update the pet's state based on mood level</li>
+        </ol>
+
+        <div class="code-sample">
+          <h4>Code Guidelines for feed():</h4>
+          <pre><code>/**
+ * Feed the pet
+ * Increases mood level and updates the last fed time
+ *
+ * @returns {string} A message about feeding
+ */
+Pet.prototype.feed = function() {
+  // TODO: Increase mood by 20 points but cap at 100
+  this.moodLevel = Math.min(100, this.moodLevel + 20);
+
+  // TODO: Update the last fed time
+  this.lastFed = new Date();
+
+  // TODO: Update the pet's state
+  this.updateState();
+
+  // TODO: Make the pet say something about being fed
+  this.speak("Yum! That was delicious!");
+
+  // TODO: Return a message about the feeding
+  return `${this.name} has been fed and is ${this.state}!`;
+};</code></pre>
+        </div>
+
+        <div class="code-sample">
+          <h4>Code Guidelines for isHungry():</h4>
+          <pre><code>/**
+ * Check if the pet is hungry based on time since last fed
+ * @returns {boolean} True if the pet is hungry
+ */
+Pet.prototype.isHungry = function() {
+  // TODO: Calculate time since last fed
+  const now = new Date();
+  const timeSinceLastFed = now - this.lastFed; // Time in milliseconds
+
+  // TODO: Define hunger threshold (1 minute in milliseconds)
+  const hungerTime = 60 * 1000; // 1 minute in milliseconds
+
+  // TODO: Return true if time since last fed is greater than hunger threshold
+  return timeSinceLastFed &gt; hungerTime;
+};</code></pre>
+        </div>
+
+        <div class="code-sample">
+          <h4>Code Guidelines for updateState():</h4>
+          <pre><code>/**
+ * Update the pet's state based on mood level
+ * @returns {string} The new state
+ */
+Pet.prototype.updateState = function() {
+  // TODO: Decrease mood if hungry
+  if (this.isHungry()) {
+    this.moodLevel = Math.max(0, this.moodLevel - 2);
+  }
+
+  // TODO: Determine state based on mood level ranges
+  if (this.moodLevel &gt;= 90) {
+    this.state = States.ECSTATIC;
+  } else if (this.moodLevel &gt;= 75) {
+    this.state = States.HAPPY;
+  } else if (this.moodLevel &gt;= 60) {
+    this.state = States.CONTENT;
+  } else if (this.moodLevel &gt;= 45) {
+    this.state = States.NEUTRAL;
+  } else if (this.moodLevel &gt;= 30) {
+    this.state = States.BORED;
+  } else if (this.moodLevel &gt;= 15) {
+    this.state = States.SAD;
+  } else {
+    this.state = States.MISERABLE;
+  }
+
+  // TODO: Occasionally make the pet speak a random thought
+  if (Math.random() &lt; 0.15 && !this.isSpeaking) { // 15% chance to speak when mood updates
+    this.speakRandomThought();
+  }
+
+  // TODO: Update the pet's appearance to match the new state
+  this.updateAppearance();
+
+  // TODO: Return the current state
+  return this.state;
+};</code></pre>
+        </div>
+
+        <h4>Testing:</h4>
+        <ol>
+          <li>Verify that <code>feed()</code> increases mood and updates the last fed time</li>
+          <li>Check that <code>isHungry()</code> correctly determines hunger based on elapsed time</li>
+          <li>Test that <code>updateState()</code> calculates the correct state based on mood level</li>
+        </ol>
+
+        <div class="tip">
+          <p><strong>Implementation Tip:</strong> Use <code>Math.min()</code> and <code>Math.max()</code> to constrain
+            the <code>moodLevel</code> value between 0 and 100, as shown in the example.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="step-container">
+      <div class="step-header">
+        <h3>Step 3: Implement Speech and Appearance Methods</h3>
+      </div>
+      <div class="step-content">
+        <p>Now, implement the methods that control the pet's speech and visual appearance.</p>
+
+        <h4>Tasks:</h4>
+        <ol>
+          <li>Implement <code>Pet.prototype.speakRandomThought()</code> to make the pet say something based on its mood
+          </li>
+          <li>Implement <code>Pet.prototype.speak()</code> to display a speech bubble with text</li>
+          <li>Implement <code>Pet.prototype.updateAppearance()</code> to update the pet's visual representation</li>
+          <li>Implement <code>Pet.prototype.getStatusMessage()</code> to get a descriptive status message</li>
+        </ol>
+
+        <div class="code-sample">
+          <h4>Code Guidelines for speak():</h4>
+          <pre><code>/**
+ * Make the pet say something with a speech bubble
+ * @param {string} text - The text to say
+ */
+Pet.prototype.speak = function(text) {
+  // TODO: Clear any existing speech timeout
+  if (this.speechTimeout) {
+    clearTimeout(this.speechTimeout);
+  }
+
+  // TODO: Update speech-related properties
+  this.isSpeaking = true;
+  this.speechText = text;
+
+  // TODO: Set a timeout to clear the speech bubble after 4 seconds
+  this.speechTimeout = setTimeout(() =&gt; {
+    this.isSpeaking = false;
+    this.speechText = '';
+    this.updateAppearance();
+  }, 4000);
+
+  // TODO: Update appearance to show the speech bubble
+  this.updateAppearance();
+};</code></pre>
+        </div>
+
+        <div class="code-sample">
+          <h4>Code Guidelines for speakRandomThought():</h4>
+          <pre><code>/**
+ * Make the pet say something random based on its mood
+ */
+Pet.prototype.speakRandomThought = function() {
+  // TODO: Get phrases for current mood
+  const phrases = SpeechPhrases[this.state] || SpeechPhrases.neutral;
+
+  // TODO: Pick a random phrase
+  const randomIndex = Math.floor(Math.random() * phrases.length);
+  const phrase = phrases[randomIndex];
+
+  // TODO: Make the pet speak the chosen phrase
+  this.speak(phrase);
+};</code></pre>
+        </div>
+
+        <div class="code-sample">
+          <h4>Code Guidelines for updateAppearance():</h4>
+          <pre><code>/**
+ * Update the pet's appearance based on type and state
+ * This creates ASCII art including speech bubbles when the pet is speaking
+ */
+Pet.prototype.updateAppearance = function() {
+  // TODO: Use the petArt object to get the right art for this pet type and state
+  const typeArt = petArt[this.type] || petArt[PetTypes.COW];
+  const art = typeArt[this.state] || typeArt[States.NEUTRAL];
+
+  // TODO: If the pet is speaking, create a speech bubble
+  if (this.isSpeaking && this.speechText) {
+    const bubbleWidth = Math.min(40, Math.max(this.speechText.length + 4, 10));
+    const topBubble = ' ' + '_'.repeat(bubbleWidth);
+    const bottomBubble = ' ' + '-'.repeat(bubbleWidth);
+    const textLine = '| ' + this.speechText.padEnd(bubbleWidth - 2, ' ') + ' |';
+
+    this.appearance = `${topBubble}\n${textLine}\n${bottomBubble}\n \\\n  ${art}`;
+  } else {
+    // TODO: Otherwise, just set the pet art
+    this.appearance = art;
+  }
+};</code></pre>
+        </div>
+
+        <div class="code-sample">
+          <h4>Code Guidelines for getStatusMessage():</h4>
+          <pre><code>/**
+ * Get a status message based on the pet's current state
+ * @returns {string} Status message
+ */
+Pet.prototype.getStatusMessage = function() {
+  // TODO: Return an appropriate message based on the pet's state
+  switch (this.state) {
+    case States.ECSTATIC:
+      return `${this.name} is absolutely ecstatic!`;
+    case States.HAPPY:
+      return `${this.name} is very happy!`;
+    case States.CONTENT:
+      return `${this.name} is content.`;
+    case States.NEUTRAL:
+      return `${this.name} is doing okay.`;
+    case States.BORED:
+      return `${this.name} seems a bit bored.`;
+    case States.SAD:
+      return `${this.name} is feeling sad.`;
+    case States.MISERABLE:
+      return `${this.name} is miserable and very hungry!`;
+    default:
+      return `${this.name} is here.`;
+  }
+};</code></pre>
+        </div>
+
+        <h4>Testing:</h4>
+        <ol>
+          <li>Verify that <code>speak()</code> correctly updates the speech-related properties</li>
+          <li>Check that <code>speakRandomThought()</code> selects phrases appropriate to the current mood</li>
+          <li>Test that <code>updateAppearance()</code> generates the correct ASCII art</li>
+          <li>Confirm that <code>getStatusMessage()</code> returns descriptive messages based on the state</li>
+        </ol>
+
+        <div class="tip">
+          <p><strong>Implementation Tip:</strong> Pay attention to the speech bubble creation in
+            <code>updateAppearance()</code>. The width should adjust based on the speech text length, and the formatting
+            creates a nice speech bubble effect.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="step-container">
+      <div class="step-header">
+        <h3>Step 4: Implement Application Logic</h3>
+      </div>
+      <div class="step-content">
+        <p>Finally, implement the application logic in <code>app.js</code> to connect the pet functionality to the user
+          interface.</p>
+
+        <h4>Tasks:</h4>
+        <ol>
+          <li>Implement <code>initApp()</code> to set up the application</li>
+          <li>Implement <code>setupEventListeners()</code> to handle user interactions</li>
+          <li>Implement <code>createNewPet()</code> to create a new pet based on user input</li>
+          <li>Implement <code>updatePetDisplay()</code> to update the UI with the pet's current state</li>
+          <li>Implement <code>startUpdateCycle()</code> to set up regular pet state updates</li>
+        </ol>
+
+        <div class="code-sample">
+          <h4>Code Guidelines for createNewPet():</h4>
+          <pre><code>/**
+ * Create a new pet based on form selections
+ */
+function createNewPet() {
+  // TODO: Get the selected pet type and name
+  const type = elements.petSelector?.value || PetTypes.COW;
+  let name = elements.nameInput?.value.trim() || '';
+
+  // TODO: Default name if none provided
+  if (!name) {
+    name = type.charAt(0).toUpperCase() + type.slice(1);
+  }
+
+  // TODO: Create the pet
+  currentPet = new Pet(type, name);
+
+  // TODO: Update UI
+  hideCreationUI();
+  updatePetDisplay();
+  startUpdateCycle();
+}</code></pre>
+        </div>
+
+        <div class="code-sample">
+          <h4>Code Guidelines for updatePetDisplay():</h4>
+          <pre><code>/**
+ * Update the pet display and status
+ */
+function updatePetDisplay() {
+  if (!currentPet) return;
+
+  // TODO: Update pet display with appearance and state-based CSS
+  if (elements.petDisplay) {
+    elements.petDisplay.textContent = currentPet.appearance;
+    elements.petDisplay.className = `pet-display pet-${currentPet.state}`;
+  }
+
+  // TODO: Update status display with pet's status message
+  if (elements.statusDisplay) {
+    elements.statusDisplay.textContent = currentPet.getStatusMessage();
+  }
+
+  // TODO: Update mood bar and info display
+  updateMoodBar();
+  updateInfoDisplay();
+}</code></pre>
+        </div>
+
+        <div class="code-sample">
+          <h4>Code Guidelines for startUpdateCycle():</h4>
+          <pre><code>/**
+ * Start the update cycle to check pet state regularly
+ */
+function startUpdateCycle() {
+  // TODO: Clear any existing interval
+  if (updateInterval) {
+    clearInterval(updateInterval);
+  }
+
+  // TODO: Set up an interval to update the pet state and display every second
+  updateInterval = setInterval(() =&gt; {
+    if (currentPet) {
+      currentPet.updateState();
+      updatePetDisplay();
+    }
+  }, 1000); // 1,000 ms = 1 second
+}</code></pre>
+        </div>
+
+        <h4>Testing:</h4>
+        <ol>
+          <li>Verify that <code>createNewPet()</code> correctly creates a pet based on user input</li>
+          <li>Check that <code>updatePetDisplay()</code> properly updates all UI elements</li>
+          <li>Test that <code>startUpdateCycle()</code> creates an interval that updates the pet regularly</li>
+          <li>Confirm that the pet's mood decreases over time when it hasn't been fed</li>
+          <li>Test the full application by creating a pet, feeding it, and watching it change over time</li>
+        </ol>
+
+        <div class="tip">
+          <p><strong>Implementation Tip:</strong> The <code>startUpdateCycle()</code> function is crucial for creating a
+            dynamic experience. Make sure to clear any existing interval before creating a new one to prevent memory
+            leaks and multiple concurrent updates.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Submission Requirements</h2>
+    <p>Your submission should include:</p>
+    <ol>
+      <li>Fully implemented <code>pet.js</code> with the Pet constructor and all prototype methods</li>
+      <li>Fully implemented <code>app.js</code> with all application logic and UI interaction code</li>
+      <li>A brief README.md explaining any additional features or customizations you added</li>
+    </ol>
+
+    <h3>Grading Criteria</h3>
+    <table class="grading-table">
+      <tr>
+        <th>Criteria</th>
+        <th>Description</th>
+        <th>Points</th>
+      </tr>
+      <tr>
+        <td>Constructor Implementation</td>
+        <td>Correct implementation of the Pet constructor with all required properties</td>
+        <td>20</td>
+      </tr>
+      <tr>
+        <td>Prototype Methods</td>
+        <td>Correct implementation of all prototype methods for pet behavior</td>
+        <td>30</td>
+      </tr>
+      <tr>
+        <td>Application Logic</td>
+        <td>Proper implementation of application logic and UI interactions</td>
+        <td>25</td>
+      </tr>
+      <tr>
+        <td>State Management</td>
+        <td>Effective management of pet state and time-based changes</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>Code Quality</td>
+        <td>Well-organized, commented, and readable code</td>
+        <td>10</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Extensions and Challenges</h2>
+    <p>If you complete the basic implementation and want to enhance your Virtual Pet Simulator, consider these
+      extensions:</p>
+
+    <div class="step-container">
+      <div class="step-header">
+        <h3>Additional Interactions</h3>
+      </div>
+      <div class="step-content">
+        <ul>
+          <li>Add a "Play" button that increases mood but decreases more quickly afterward</li>
+          <li>Add a "Sleep" button that makes the pet sleep for a period and wake up happier</li>
+          <li>Implement a "Training" feature that teaches the pet tricks it can perform</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-container">
+      <div class="step-header">
+        <h3>Enhanced Visuals</h3>
+      </div>
+      <div class="step-content">
+        <ul>
+          <li>Add more complex ASCII art for different pet types and states</li>
+          <li>Implement CSS animations for different pet actions</li>
+          <li>Add day/night cycles that affect the pet's behavior</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-container">
+      <div class="step-header">
+        <h3>Advanced Features</h3>
+      </div>
+      <div class="step-content">
+        <ul>
+          <li>Implement a "save" feature using localStorage to persist the pet between browser sessions</li>
+          <li>Add growth stages that change the pet's appearance over time</li>
+          <li>Implement a system of achievements for pet care milestones</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="warning">
+      <p><strong>Remember:</strong> Focus on completing the core requirements before attempting extensions. A fully
+        functional basic pet is better than a partially implemented complex one!</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Learning Resources</h2>
+    <p>Use these resources to help you understand the concepts needed for this assignment:</p>
+
+    <ul>
+      <li><a href="constructors.html">JavaScript Constructor Functions</a> - Understanding how to create object
+        templates</li>
+      <li><a href="prototypes.html">Prototype Methods and Inheritance</a> - Adding shared behavior to objects</li>
+      <li><a href="state-management.html">State Management Techniques</a> - Tracking and updating object state</li>
+      <li><a href="dom-manipulation.html">DOM Manipulation and UI Updates</a> - Updating the interface based on state
+      </li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    <p>Virtual Pet Simulator - A JavaScript Constructor Learning Project</p>
+    <p>Created for educational purposes to demonstrate object-oriented programming principles</p>
+  </div>
+</body>
+
+</html>

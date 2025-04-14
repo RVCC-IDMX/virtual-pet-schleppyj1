@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOM Manipulation - Virtual Pet Simulator</title>
+  <link rel="shortcut icon" href="./favicon.png" type="image/png">
+  <link rel="stylesheet" href="header.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Additional styles for this tutorial */
+    pre {
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin: 20px 0;
+      border-left: 4px solid #4caf50;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .code-sample {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 25px 0;
+      border: 1px solid #ddd;
+    }
+
+    .output {
+      background-color: #f0f8ff;
+      padding: 10px 15px;
+      border-radius: 5px;
+      margin-top: 10px;
+      border-left: 4px solid #4caf50;
+    }
+
+    .tip {
+      background-color: #e8f5e9;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      border-left: 4px solid #4caf50;
+    }
+
+    .warning {
+      background-color: #fff3cd;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      border-left: 4px solid #ffc107;
+    }
+
+    .example-ui {
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      background-color: #f9f9f9;
+    }
+
+    .example-ui .pet-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      background-color: white;
+      margin-bottom: 10px;
+    }
+
+    .example-ui .status-bar {
+      background-color: white;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .example-ui .control-panel {
+      background-color: white;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      padding: 10px;
+    }
+
+    .diagram {
+      width: 600px;
+      max-width: 100%;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #f0f8ff;
+      border-radius: 8px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <nav class="site-nav">
+        <div class="logo">
+          <a href="index.html">
+            <img src="./favicon.png" alt="pet icon" class="logo-img">
+            <span>Virtual Pet Simulator</span>
+          </a>
+        </div>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="assignment.html" class="nav-link">Assignment</a></li>
+          <li><a href="constructors.html" class="nav-link">Constructors</a></li>
+          <li><a href="prototypes.html" class="nav-link">Prototypes</a></li>
+          <li><a href="state-management.html" class="nav-link">State Management</a></li>
+          <li><a href="dom-manipulation.html" class="nav-link">DOM Manipulation</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="header">
+    <h1>DOM Manipulation in the Virtual Pet Simulator</h1>
+    <p>Learn how to update the user interface to reflect your pet's state and handle user interactions</p>
+  </div>
+
+  <div class="card">
+    <h2>Understanding the DOM Structure</h2>
+
+    <p>The Document Object Model (DOM) is a programming interface for web documents. It represents the page so that
+      programs can change the document structure, style, and content. In our Virtual Pet Simulator, we use DOM
+      manipulation to update the pet's appearance and information, and to handle user interactions.</p>
+
+    <p>Let's look at the key DOM elements in our Virtual Pet Simulator:</p>
+
+    <div class="example-ui">
+      <div class="pet-container">
+        <div class="pet-display"></div>
+      </div>
+      <div class="status-bar">
+        <div>Whiskers is happy!</div>
+      </div>
+      <div class="control-panel">
+        <button>Feed</button>
+        <button>Reset</button>
+        <div class="info-display">
+          <div>Name: Whiskers</div>
+          <div>Type: Cat</div>
+          <div>Mood: Happy (80)</div>
+        </div>
+      </div>
+    </div>
+
+    <p>The key DOM elements we'll be interacting with include:</p>
+    <ul>
+      <li><strong>petDisplay:</strong> Shows the pet's ASCII art representation</li>
+      <li><strong>statusDisplay:</strong> Shows the pet's current status message</li>
+      <li><strong>moodBar:</strong> Visual representation of the pet's mood level</li>
+      <li><strong>infoDisplay:</strong> Shows detailed information about the pet</li>
+      <li><strong>Button elements:</strong> For user interactions like feeding</li>
+      <li><strong>Form elements:</strong> For creating a new pet</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Getting DOM Elements</h2>
+
+    <p>The first step in DOM manipulation is getting references to the elements we want to interact with. In app.js,
+      we do this by accessing elements by their IDs:</p>
+
+    <div class="code-sample">
+      <h4>Getting DOM Element References</h4>
+      <pre><code>// DOM elements
+const elements = {
+  petDisplay: document.getElementById('pet-display'),
+  statusDisplay: document.getElementById('status-display'),
+  petSelector: document.getElementById('pet-selector'),
+  nameInput: document.getElementById('pet-name'),
+  createButton: document.getElementById('create-pet'),
+  feedButton: document.getElementById('feed-pet'),
+  resetButton: document.getElementById('reset-pet'),
+  infoDisplay: document.getElementById('info-display'),
+  moodBar: document.getElementById('mood-bar')
+};</code></pre>
+    </div>
+
+    <p>This gives us easy access to all the elements we need to manipulate. Note a few key points:</p>
+    <ul>
+      <li>We store all element references in a single object for organization</li>
+      <li>We use <code>document.getElementById()</code> to get elements by their ID attributes</li>
+      <li>Elements not found will be <code>null</code>, so we need to check for existence before using them</li>
+    </ul>
+
+    <div class="tip">
+      <p><strong>Implementation Tip:</strong> By collecting all DOM element references at the start, we avoid repeated
+        calls to <code>document.getElementById()</code>, which improves performance and makes our code cleaner.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Updating the Pet Display</h2>
+
+    <p>One of the most important DOM operations in our simulator is updating the pet's display to show its current
+      appearance. This happens in the <code>updatePetDisplay()</code> function:</p>
+
+    <div class="code-sample">
+      <h4>Updating the Pet Display</h4>
+      <pre><code>/**
+ * Update the pet display and status
+ */
+function updatePetDisplay() {
+  if (!currentPet) return;
+
+  // Update pet display
+  if (elements.petDisplay) {
+    elements.petDisplay.textContent = currentPet.appearance;
+    elements.petDisplay.className = `pet-display pet-${currentPet.state}`;
+  }
+
+  // Update status display
+  if (elements.statusDisplay) {
+    elements.statusDisplay.textContent = currentPet.getStatusMessage();
+  }
+
+  // Update mood bar
+  updateMoodBar();
+
+  // Update info display
+  updateInfoDisplay();
+}</code></pre>
+    </div>
+
+    <p>Key DOM manipulation techniques in this function:</p>
+    <ul>
+      <li><strong>Setting text content:</strong> <code>elements.petDisplay.textContent = currentPet.appearance</code>
+      </li>
+      <li><strong>Modifying CSS classes:</strong>
+        <code>elements.petDisplay.className = `pet-display pet-${currentPet.state}`</code>
+      </li>
+      <li><strong>Defensive programming:</strong> Checking if elements exist before manipulating them</li>
+      <li><strong>Modular approach:</strong> Calling separate functions for complex updates</li>
+    </ul>
+
+    <div class="warning">
+      <p><strong>Warning:</strong> Always check that DOM elements exist before trying to manipulate them. In our code,
+        we use the pattern <code>if (elements.elementName) { /* manipulate element */ }</code> to prevent errors if
+        elements are missing.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Dynamic Content Creation</h2>
+
+    <p>For more complex UI elements, we use techniques to create content dynamically. The
+      <code>updateInfoDisplay()</code> function is a great example of this:
+    </p>
+
+    <div class="code-sample">
+      <h4>Dynamic Content Creation</h4>
+      <pre><code>/**
+ * Update the information display with pet stats
+ */
+function updateInfoDisplay() {
+  if (!elements.infoDisplay || !currentPet) return;
+
+  const lastFedTime = currentPet.lastFed.toLocaleTimeString();
+  const createdTime = currentPet.created.toLocaleDateString();
+
+  elements.infoDisplay.innerHTML = `
+    <div class="info-row">
+      <span class="info-label">Name:</span>
+      <span class="info-value">${currentPet.name}</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Type:</span>
+      <span class="info-value">${currentPet.type}</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Mood:</span>
+      <span class="info-value">${currentPet.state} (${currentPet.moodLevel})</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Mood Level:</span>
+      <span class="info-value">
+        <div class="progress-bar">
+          <div id="mood-bar" class="progress-fill" style="width: ${currentPet.moodLevel}%"></div>
+        </div>
+      </span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Last Fed:</span>
+      <span class="info-value">${lastFedTime}</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Created:</span>
+      <span class="info-value">${createdTime}</span>
+    </div>
+  `;
+
+  // Get the mood bar element after creating it
+  elements.moodBar = document.getElementById('mood-bar');
+  updateMoodBar();
+}</code></pre>
+    </div>
+
+    <p>Key techniques for dynamic content creation:</p>
+    <ul>
+      <li><strong>Template literals:</strong> Using backticks (`) and <code>${...}</code> for easy string
+        interpolation</li>
+      <li><strong>Setting innerHTML:</strong> <code>elements.infoDisplay.innerHTML = ...</code> to replace the entire
+        content</li>
+      <li><strong>Creating HTML structure:</strong> Building a complex set of nested elements as a string</li>
+      <li><strong>Formatting dates:</strong> Using <code>toLocaleTimeString()</code> and
+        <code>toLocaleDateString()</code> for readable timestamps
+      </li>
+      <li><strong>Reconnecting to new elements:</strong> Getting the newly created mood bar element after adding it to
+        the DOM</li>
+    </ul>
+
+    <div class="tip">
+      <p><strong>Implementation Tip:</strong> When using <code>innerHTML</code> to create complex content, be mindful
+        of the need to reconnect to any new elements you create, as we do with
+        <code>elements.moodBar = document.getElementById('mood-bar')</code>.
+      </p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>CSS Class Manipulation</h2>
+
+    <p>Another important DOM manipulation technique is changing CSS classes to update the visual appearance of
+      elements. We see this in how we update the mood bar:</p>
+
+    <div class="code-sample">
+      <h4>CSS Class Manipulation</h4>
+      <pre><code>/**
+ * Update the mood level bar
+ */
+function updateMoodBar() {
+  if (!elements.moodBar || !currentPet) return;
+
+  // Set the width based on mood level
+  elements.moodBar.style.width = `${currentPet.moodLevel}%`;
+
+  // Set color based on mood level
+  if (currentPet.moodLevel &gt;= 75) {
+    elements.moodBar.style.backgroundColor = '#4caf50'; // Green
+  } else if (currentPet.moodLevel &gt;= 45) {
+    elements.moodBar.style.backgroundColor = '#ff9800'; // Orange
+  } else {
+    elements.moodBar.style.backgroundColor = '#f44336'; // Red
+  }
+}</code></pre>
+    </div>
+
+    <p>In this example, we directly modify the element's style properties, but we also use CSS classes in other parts
+      of our code:</p>
+
+    <div class="code-sample">
+      <h4>Using CSS Classes</h4>
+      <pre><code>// In updatePetDisplay()
+elements.petDisplay.className = `pet-display pet-${currentPet.state}`;
+
+// In hideCreationUI()
+document.getElementById('pet-creation')?.classList.add('hidden');
+document.getElementById('pet-interaction')?.classList.remove('hidden');
+
+// In showCreationUI()
+document.getElementById('pet-creation')?.classList.remove('hidden');
+document.getElementById('pet-interaction')?.classList.add('hidden');</code></pre>
+    </div>
+
+    <p>Methods for manipulating CSS classes:</p>
+    <ul>
+      <li><strong>Setting className:</strong> <code>element.className = "class1 class2"</code> replaces all classes
+      </li>
+      <li><strong>classList.add():</strong> <code>element.classList.add("hidden")</code> adds a class</li>
+      <li><strong>classList.remove():</strong> <code>element.classList.remove("hidden")</code> removes a class</li>
+      <li><strong>classList.toggle():</strong> <code>element.classList.toggle("active")</code> toggles a class on/off
+      </li>
+      <li><strong>classList.contains():</strong> <code>element.classList.contains("hidden")</code> checks if a class
+        is present</li>
+    </ul>
+
+    <div class="tip">
+      <p><strong>Implementation Tip:</strong> Prefer using <code>classList</code> methods over manipulating
+        <code>className</code> directly, as they're more specific and less prone to errors. We use
+        <code>className</code> in <code>updatePetDisplay()</code> for simplicity when setting multiple classes at
+        once.
+      </p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Event Handling</h2>
+
+    <p>To make our Virtual Pet Simulator interactive, we need to handle user events like button clicks. This is done
+      in the <code>setupEventListeners()</code> function:</p>
+
+    <div class="code-sample">
+      <h4>Setting Up Event Listeners</h4>
+      <pre><code>/**
+ * Set up event listeners for UI interactions
+ */
+function setupEventListeners() {
+  // Create new pet
+  elements.createButton?.addEventListener('click', createNewPet);
+
+  // Feed the pet
+  elements.feedButton?.addEventListener('click', feedPet);
+
+  // Reset pet
+  elements.resetButton?.addEventListener('click', resetPet);
+}</code></pre>
+    </div>
+
+    <p>The event handling pattern we use is:</p>
+    <ol>
+      <li>Get a reference to the element that will trigger events</li>
+      <li>Use <code>addEventListener</code> to attach a handler function</li>
+      <li>Define handler functions that perform the necessary actions</li>
+    </ol>
+
+    <div class="code-sample">
+      <h4>Event Handler Function</h4>
+      <pre><code>/**
+ * Feed the current pet
+ */
+function feedPet() {
+  if (!currentPet) return;
+
+  // Feed the pet
+  const message = currentPet.feed();
+
+  // Show feedback
+  if (elements.statusDisplay) {
+    elements.statusDisplay.textContent = message;
+  }
+
+  // Update the display
+  updatePetDisplay();
+}</code></pre>
+    </div>
+
+    <p>Key event handling techniques:</p>
+    <ul>
+      <li><strong>Optional chaining:</strong> <code>elements.createButton?.addEventListener</code> to safely add
+        listeners</li>
+      <li><strong>Event delegation:</strong> Attaching listeners to specific elements that handle specific actions
+      </li>
+      <li><strong>Modular approach:</strong> Breaking down event handling into separate functions for clarity</li>
+      <li><strong>Providing feedback:</strong> Updating the UI in response to user actions</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Form Element Handling</h2>
+
+    <p>Our Virtual Pet Simulator also handles form elements for creating new pets. This is done in the
+      <code>createNewPet()</code> function:
+    </p>
+
+    <div class="code-sample">
+      <h4>Handling Form Inputs</h4>
+      <pre><code>/**
+ * Create a new pet based on form selections
+ */
+function createNewPet() {
+  const type = elements.petSelector?.value || PetTypes.COW;
+  let name = elements.nameInput?.value.trim() || '';
+
+  // Default name if none provided
+  if (!name) {
+    name = type.charAt(0).toUpperCase() + type.slice(1);
+  }
+
+  // Create the pet
+  currentPet = new Pet(type, name);
+
+  // Update UI
+  hideCreationUI();
+  updatePetDisplay();
+  startUpdateCycle();
+}</code></pre>
+    </div>
+
+    <p>Key form handling techniques:</p>
+    <ul>
+      <li><strong>Getting input values:</strong> <code>elements.nameInput?.value</code> to access the current value
+      </li>
+      <li><strong>String processing:</strong> <code>value.trim()</code> to remove leading/trailing whitespace</li>
+      <li><strong>Default values:</strong> Using the <code>||</code> operator to provide fallbacks for empty inputs
+      </li>
+      <li><strong>Validation:</strong> Checking if input meets requirements and providing defaults if needed</li>
+      <li><strong>UI updates:</strong> Changing the UI state after processing the form</li>
+    </ul>
+
+    <div class="code-sample">
+      <h4>Populating a Select Element</h4>
+      <pre><code>/**
+ * Populate the pet selector dropdown
+ */
+function populatePetSelector() {
+  // Get the select element
+  const selector = elements.petSelector;
+  if (!selector) return;
+
+  // Clear existing options
+  selector.innerHTML = '';
+
+  // Add option for each pet type
+  Object.entries(PetTypes).forEach(([key, value]) =&gt; {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = key.charAt(0) + key.slice(1).toLowerCase();
+    selector.appendChild(option);
+  });
+
+  // Default to cow
+  selector.value = PetTypes.COW;
+}</code></pre>
+    </div>
+
+    <p>This example shows a more advanced form manipulation technique: programmatically populating a select element.
+      Key points include:</p>
+    <ul>
+      <li><strong>Creating elements:</strong> <code>document.createElement('option')</code> to create new options</li>
+      <li><strong>Setting properties:</strong> <code>option.value</code> and <code>option.textContent</code> to
+        configure the element</li>
+      <li><strong>Appending children:</strong> <code>selector.appendChild(option)</code> to add elements to the DOM
+      </li>
+      <li><strong>Setting defaults:</strong> <code>selector.value = PetTypes.COW</code> to set the initial selection
+      </li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Timing and Animation</h2>
+
+    <p>Our Virtual Pet Simulator also uses timing functions for updates and state changes. This is handled in the
+      <code>startUpdateCycle()</code> function:
+    </p>
+
+    <div class="code-sample">
+      <h4>Setting Up Timed Updates</h4>
+      <pre><code>/**
+ * Start the update cycle to check pet state regularly
+ */
+function startUpdateCycle() {
+  // Clear any existing interval
+  if (updateInterval) {
+    clearInterval(updateInterval);
+  }
+
+  // Update every 1 second to make changes smoother
+  updateInterval = setInterval(() =&gt; {
+    if (currentPet) {
+      currentPet.updateState();
+      updatePetDisplay();
+    }
+  }, 1000); // 1,000 ms = 1 second
+}</code></pre>
+    </div>
+
+    <p>Key timing techniques:</p>
+    <ul>
+      <li><strong>setInterval:</strong> <code>setInterval(callback, delay)</code> to repeatedly execute code</li>
+      <li><strong>clearInterval:</strong> <code>clearInterval(intervalId)</code> to stop existing intervals</li>
+      <li><strong>Managing state:</strong> Tracking interval IDs in application state</li>
+      <li><strong>Regular UI updates:</strong> Calling <code>updatePetDisplay()</code> on each interval</li>
+    </ul>
+
+    <p>In addition to timed updates, our CSS includes animations for the pet's appearance:</p>
+
+    <div class="code-sample">
+      <h4>CSS Animation</h4>
+      <pre><code>@keyframes bounce {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+.pet-ecstatic {
+  animation: bounce 0.5s infinite alternate;
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.pet-happy {
+  animation: bounce 0.8s infinite alternate;
+  color: #8bc34a;
+}</code></pre>
+    </div>
+
+    <p>These animations are applied by changing the element's classes, as we've seen in the
+      <code>updatePetDisplay()</code> function. This combination of JavaScript state management and CSS animations
+      creates a dynamic, engaging user experience.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Best Practices for DOM Manipulation</h2>
+
+    <p>Based on our Virtual Pet Simulator implementation, here are some best practices for effective DOM manipulation:
+    </p>
+
+    <h3>1. Cache DOM References</h3>
+    <p>Store references to frequently accessed DOM elements to avoid repeated lookups:</p>
+    <pre><code>const elements = {
+  petDisplay: document.getElementById('pet-display'),
+  statusDisplay: document.getElementById('status-display'),
+  // ...more elements
+};</code></pre>
+
+    <h3>2. Check Element Existence</h3>
+    <p>Always verify that elements exist before manipulating them:</p>
+    <pre><code>if (elements.petDisplay) {
+  elements.petDisplay.textContent = currentPet.appearance;
+}</code></pre>
+
+    <h3>3. Organize UI Updates</h3>
+    <p>Group related UI updates into functions for better organization and reusability:</p>
+    <pre><code>function updatePetDisplay() {
+  // Update pet display, status, mood bar, and info display
+}</code></pre>
+
+    <h3>4. Use Event Delegation</h3>
+    <p>Attach event listeners to specific elements that need them:</p>
+    <pre><code>elements.feedButton?.addEventListener('click', feedPet);</code></pre>
+
+    <h3>5. Clean Up Resources</h3>
+    <p>Clear intervals and timeouts when they're no longer needed:</p>
+    <pre><code>if (updateInterval) {
+  clearInterval(updateInterval);
+}</code></pre>
+
+    <h3>6. Separate Logic from UI</h3>
+    <p>Keep business logic (pet behavior) separate from UI updates for better organization and maintainability.</p>
+
+    <h3>7. Use CSS Classes for Visual States</h3>
+    <p>Leverage CSS classes to manage visual state changes rather than manipulating inline styles directly when
+      possible.</p>
+  </div>
+
+  <div class="card">
+    <h2>Practical Exercise</h2>
+
+    <p>Try implementing a simple DOM manipulation exercise related to our Virtual Pet Simulator:</p>
+
+    <ol>
+      <li>Create a basic HTML structure with a pet display area, status text, and a feed button</li>
+      <li>Write JavaScript to update the pet's appearance and status when the feed button is clicked</li>
+      <li>Add a simple animation or visual effect when the pet is fed</li>
+      <li>Create a timer that makes the pet "hungry" after a set period</li>
+    </ol>
+
+    <div class="code-sample">
+      <h4>Exercise Template</h4>
+      <pre><code>// HTML Structure
+/*
+<div id="pet-container">
+  <div id="pet-display">^_^</div>
+  <div id="pet-status">Your pet is happy</div>
+  <button id="feed-button">Feed</button>
+</div>
+*/
+
+// Get DOM elements
+const petDisplay = document.getElementById('pet-display');
+const petStatus = document.getElementById('pet-status');
+const feedButton = document.getElementById('feed-button');
+
+// Pet state
+let mood = 'happy';
+let lastFed = new Date();
+
+// TODO: Add event listener to feed button
+
+// TODO: Create function to update pet display
+
+// TODO: Create function to check hunger
+
+// TODO: Start a timer to check hunger regularly</code></pre>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Virtual Pet Simulator - A JavaScript Constructor Learning Project</p>
+    <p>Created for educational purposes to demonstrate object-oriented programming principles</p>
+  </div>
+</body>
+
+</html>

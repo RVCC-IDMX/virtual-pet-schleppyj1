@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+  <title>Simple Virtual Pet - Constructor Demo</title>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>Simple Virtual Pet</h1>
+      <p class="subtitle">JavaScript Constructor Function Demo</p>
+    </header>
+
+    <main>
+      <div class="pet-container">
+        <div id="pet-display" class="pet-display"></div>
+      </div>
+
+      <div class="status-bar">
+        <div id="status-display">Create a pet to get started!</div>
+      </div>
+
+      <!-- Pet Creation UI -->
+      <div id="pet-creation" class="control-panel">
+        <h2>Create Your Pet</h2>
+        <div class="form-group">
+          <label for="pet-selector">Pet Type:</label>
+          <select id="pet-selector">
+            <!-- Options will be populated by JavaScript -->
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="pet-name">Pet Name:</label>
+          <input type="text" id="pet-name" placeholder="Enter name">
+        </div>
+
+        <button id="create-pet" class="btn primary">Create Pet</button>
+      </div>
+
+      <!-- Pet Interaction UI -->
+      <div id="pet-interaction" class="control-panel hidden">
+        <h2>Interact with Your Pet</h2>
+        <div class="button-group">
+          <button id="feed-pet" class="btn primary">Feed</button>
+          <button id="reset-pet" class="btn danger">New Pet</button>
+        </div>
+
+        <div id="info-display" class="info-display">
+          <!-- Pet info will be inserted here -->
+        </div>
+      </div>
+
+    </main>
+
+    <footer>
+      <p>Simple Virtual Pet - A JavaScript Constructor Learning Project</p>
+      <p>Demonstrates basic object-oriented programming principles using constructors</p>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="js/app.js"></script>
+</body>
+
+</html>

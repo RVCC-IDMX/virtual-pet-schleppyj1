@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Constructor Functions - Virtual Pet Simulator</title>
+  <link rel="shortcut icon" href="./favicon.png" type="image/png">
+  <link rel="stylesheet" href="header.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Additional styles for this tutorial */
+    pre {
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin: 20px 0;
+      border-left: 4px solid #4caf50;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .code-sample {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 25px 0;
+      border: 1px solid #ddd;
+    }
+
+    .output {
+      background-color: #f0f8ff;
+      padding: 10px 15px;
+      border-radius: 5px;
+      margin-top: 10px;
+      border-left: 4px solid #4caf50;
+    }
+
+    .tip {
+      background-color: #e8f5e9;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      border-left: 4px solid #4caf50;
+    }
+
+    .warning {
+      background-color: #fff3cd;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      border-left: 4px solid #ffc107;
+    }
+
+    .example-comparison {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin: 30px 0;
+    }
+
+    .example-box {
+      flex: 1;
+      min-width: 300px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+    }
+
+    .example-box h4 {
+      margin-top: 0;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+    }
+
+    .highlight {
+      background-color: #ffffcc;
+      padding: 2px 4px;
+    }
+
+    .diagram {
+      max-width: 100%;
+      margin: 20px auto;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <nav class="site-nav">
+        <div class="logo">
+          <a href="index.html">
+            <img src="./favicon.png" alt="pet icon" class="logo-img">
+            <span>Virtual Pet Simulator</span>
+          </a>
+        </div>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="assignment.html" class="nav-link">Assignment</a></li>
+          <li><a href="constructors.html" class="nav-link">Constructors</a></li>
+          <li><a href="prototypes.html" class="nav-link">Prototypes</a></li>
+          <li><a href="state-management.html" class="nav-link">State Management</a></li>
+          <li><a href="dom-manipulation.html" class="nav-link">DOM Manipulation</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="header">
+    <h1>JavaScript Constructor Functions</h1>
+    <p>Understanding how to create object templates that generate consistent instances with shared properties and behaviors</p>
+  </div>
+
+  <div class="card">
+    <h2>What are Constructor Functions?</h2>
+
+    <p>Constructor functions in JavaScript are special functions that create and initialize objects with predefined properties and methods. They serve as templates or blueprints for creating multiple similar objects with the same structure but potentially different values.</p>
+
+    <p>In our Virtual Pet Simulator, we'll use a constructor function to create pet objects with consistent properties like name, type, mood level, and behaviors like eating and speaking.</p>
+
+    <div class="code-sample">
+      <h4>Basic Constructor Function Syntax</h4>
+      <pre><code>// Basic constructor function syntax
+function Pet(name, type) {
+  // Properties initialized with the function parameters
+  this.name = name;
+  this.type = type;
+  
+  // Default properties
+  this.moodLevel = 80;
+  this.lastFed = new Date();
+}
+
+// Creating instances using the 'new' keyword
+const cat = new Pet("Whiskers", "cat");
+const dog = new Pet("Buddy", "dog");
+
+console.log(cat.name); // "Whiskers"
+console.log(dog.type); // "dog"</code></pre>
+      <div class="output">
+        <p>Output:</p>
+        <code>"Whiskers"<br>"dog"</code>
+      </div>
+    </div>
+
+    <p>Key points about constructor functions:</p>
+    <ul>
+      <li>Constructor function names typically start with a capital letter (e.g., <code>Pet</code> rather than <code>pet</code>)</li>
+      <li>The <code>new</code> keyword is required to create instances</li>
+      <li>Inside the constructor, <code>this</code> refers to the new object being created</li>
+      <li>Properties are attached to <code>this</code> to become part of each instance</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>The 'new' Keyword</h2>
+
+    <p>The <code>new</code> keyword is essential when using constructor functions. It performs several important operations:</p>
+
+    <ol>
+      <li>Creates a new empty object</li>
+      <li>Sets the constructor function's prototype as the prototype of the new object</li>
+      <li>Executes the constructor function with <code>this</code> set to the new object</li>
+      <li>Returns the new object (unless the constructor explicitly returns a different object)</li>
+    </ol>
+
+    <div class="warning">
+      <p><strong>Warning:</strong> Forgetting the <code>new</code> keyword when calling a constructor function can lead to unexpected behavior! Without <code>new</code>, <code>this</code> might refer to the global object (window), potentially overwriting global variables.</p>
+    </div>
+
+    <div class="code-sample">
+      <h4>What Happens Behind the Scenes with 'new'</h4>
+      <pre><code>// The 'new' keyword essentially does this:
+function createObjectWithConstructor(Constructor, ...args) {
+  // 1. Create a new object with the constructor's prototype
+  const obj = Object.create(Constructor.prototype);
+  
+  // 2. Call the constructor with 'this' set to the new object
+  const result = Constructor.apply(obj, args);
+  
+  // 3. Return the new object (unless the constructor returns another object)
+  return (typeof result === 'object' && result !== null) ? result : obj;
+}
+
+// Using our createObjectWithConstructor function
+const manualCat = createObjectWithConstructor(Pet, "Whiskers", "cat");
+// is equivalent to:
+const normalCat = new Pet("Whiskers", "cat");</code></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Properties and Initialization</h2>
+
+    <p>Constructor functions initialize object properties with values passed as arguments or default values. This is where you define the initial state of your objects.</p>
+
+    <div class="code-sample">
+      <h4>Property Initialization in the Pet Constructor</h4>
+      <pre><code>/**
+ * Pet constructor function
+ * Creates a virtual pet with basic properties and methods
+ *
+ * @param {string} type - The type of pet from PetTypes
+ * @param {string} name - The name of the pet
+ */
+function Pet(type, name) {
+  // Basic properties from parameters (with defaults)
+  this.type = type || PetTypes.COW;
+  this.name = name || 'Pet';
+
+  // Mood tracking (0-100 scale: 0 is miserable, 100 is ecstatic)
+  this.moodLevel = 80;
+  this.state = States.HAPPY;
+  this.lastFed = new Date();
+  this.created = new Date();
+  
+  // Speech related properties
+  this.isSpeaking = false;
+  this.speechText = '';
+  this.speechTimeout = null;
+
+  // Generate initial appearance
+  this.updateAppearance();
+}</code></pre>
+    </div>
+
+    <h3>Best Practices for Property Initialization</h3>
+
+    <ol>
+      <li><strong>Parameter defaults:</strong> Provide default values for parameters, as shown with <code>type || PetTypes.COW</code></li>
+      <li><strong>Initial state:</strong> Set meaningful initial states for properties that track object condition</li>
+      <li><strong>Timestamp creation:</strong> Use <code>new Date()</code> to track when objects were created or last modified</li>
+      <li><strong>Descriptive names:</strong> Use clear, descriptive property names that indicate their purpose</li>
+      <li><strong>Consistent types:</strong> Maintain consistent data types for properties across instances</li>
+    </ol>
+
+    <div class="tip">
+      <p><strong>Tip:</strong> Consider using constants for default values, ranges, and other configuration settings (like our <code>PetTypes</code> and <code>States</code> objects). This makes your code more maintainable and helps prevent typos.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Implementing the Pet Constructor</h2>
+
+    <p>Let's examine how to implement the Pet constructor for our Virtual Pet Simulator. We'll focus on the key aspects you need to implement in the assignment.</p>
+
+    <div class="code-sample">
+      <h4>Complete Pet Constructor</h4>
+      <pre><code>/**
+ * Pet constructor function
+ * Creates a virtual pet with basic properties and methods
+ *
+ * @param {string} type - The type of pet from PetTypes
+ * @param {string} name - The name of the pet
+ */
+function Pet(type, name) {
+  // Basic properties
+  this.type = type || PetTypes.COW;
+  this.name = name || 'Pet';
+
+  // Mood tracking (0-100 scale: 0 is miserable, 100 is ecstatic)
+  this.moodLevel = 80;
+  this.state = States.HAPPY;
+  this.lastFed = new Date();
+  this.created = new Date();
+  this.isSpeaking = false;
+  this.speechText = '';
+  this.speechTimeout = null;
+
+  // Generate initial appearance
+  this.updateAppearance();
+}</code></pre>
+    </div>
+
+    <h3>Key Implementation Requirements</h3>
+
+    <p>When implementing the Pet constructor in your assignment, make sure to:</p>
+
+    <ol>
+      <li>Accept parameters for <code>type</code> and <code>name</code></li>
+      <li>Provide sensible default values for missing parameters</li>
+      <li>Initialize the mood tracking system with appropriate defaults</li>
+      <li>Set up speech-related properties</li>
+      <li>Call the <code>updateAppearance()</code> method to establish the initial visual state</li>
+    </ol>
+
+    <div class="tip">
+      <p><strong>Implementation Tip:</strong> The <code>updateAppearance()</code> method will be added to the prototype, but it's called from the constructor to set the initial appearance. This highlights how constructors and prototype methods work together.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Creating Pet Instances</h2>
+
+    <p>Once you've implemented the Pet constructor, you'll need to create instances of it in your application. This happens in the <code>createNewPet()</code> function in app.js.</p>
+
+    <div class="code-sample">
+      <h4>Creating a Pet Instance in app.js</h4>
+      <pre><code>/**
+ * Create a new pet based on form selections
+ */
+function createNewPet() {
+  const type = elements.petSelector?.value || PetTypes.COW;
+  let name = elements.nameInput?.value.trim() || '';
+
+  // Default name if none provided
+  if (!name) {
+    name = type.charAt(0).toUpperCase() + type.slice(1);
+  }
+
+  // Create the pet
+  currentPet = new Pet(type, name);
+
+  // Update UI
+  hideCreationUI();
+  updatePetDisplay();
+  startUpdateCycle();
+}</code></pre>
+    </div>
+
+    <p>The key parts of this process are:</p>
+
+    <ol>
+      <li>Gather input data (pet type and name)</li>
+      <li>Process and validate the input</li>
+      <li>Create a new Pet instance with <code>new Pet(type, name)</code></li>
+      <li>Update the UI to reflect the new pet</li>
+      <li>Start the update cycle to manage the pet's state changes over time</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>Constructor Function vs. Class Syntax</h2>
+
+    <p>Modern JavaScript introduced the <code>class</code> syntax, which provides a more familiar syntax for developers coming from other object-oriented languages. However, under the hood, JavaScript classes still use prototype-based inheritance.</p>
+
+    <div class="example-comparison">
+      <div class="example-box">
+        <h4>Constructor Function Syntax</h4>
+        <pre><code>function Pet(type, name) {
+  this.type = type || 'cow';
+  this.name = name || 'Pet';
+  this.moodLevel = 80;
+}
+
+Pet.prototype.feed = function() {
+  this.moodLevel = Math.min(100, this.moodLevel + 20);
+  return `${this.name} has been fed!`;
+};</code></pre>
+      </div>
+      <div class="example-box">
+        <h4>Equivalent Class Syntax</h4>
+        <pre><code>class Pet {
+  constructor(type, name) {
+    this.type = type || 'cow';
+    this.name = name || 'Pet';
+    this.moodLevel = 80;
+  }
+  
+  feed() {
+    this.moodLevel = Math.min(100, this.moodLevel + 20);
+    return `${this.name} has been fed!`;
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <p>For this assignment, we're using constructor functions and prototypes to help you understand these fundamental JavaScript concepts, which form the foundation of object-oriented programming in JavaScript.</p>
+  </div>
+
+  <div class="card">
+    <h2>Practical Exercise</h2>
+
+    <p>Try implementing a simplified version of the Pet constructor function:</p>
+
+    <ol>
+      <li>Create a constructor function that accepts <code>type</code> and <code>name</code> parameters</li>
+      <li>Initialize properties for mood, creation time, and speaking state</li>
+      <li>Add a simple method directly in the constructor (Note: In the actual assignment, you'll add methods to the prototype instead)</li>
+      <li>Create a few instances with different values</li>
+      <li>Test that each instance maintains its own individual property values</li>
+    </ol>
+
+    <div class="code-sample">
+      <h4>Exercise Template</h4>
+      <pre><code>// Define a simplified Pet constructor
+function Pet(type, name) {
+  // TODO: Initialize properties
+  
+  // TODO: Add a simple method like getDescription()
+}
+
+// TODO: Create a few instances
+
+// TODO: Test the instances</code></pre>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Virtual Pet Simulator - A JavaScript Constructor Learning Project</p>
+    <p>Created for educational purposes to demonstrate object-oriented programming principles</p>
+  </div>
+</body>
+
+</html>
