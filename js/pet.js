@@ -11,6 +11,7 @@ const PetTypes = {
   COW: 'cow',
   CAT: 'cat',
   DOG: 'dog',
+  BAT: 'bat'
 };
 
 // TODO: Create a States object with different mood states
@@ -23,6 +24,59 @@ const States = {
   BORED: 'bored',
   SAD: 'sad',
   MISERABLE: 'miserable'
+};
+
+// Speech phrases for different moods
+const SpeechPhrases = {
+  ecstatic: [
+    'I\'m having the best day ever!',
+    'This is amazing!',
+    'I couldn\'t be happier!',
+    'Best. Day. Ever!',
+    'You\'re the greatest!'
+  ],
+  happy: [
+    'I\'m so happy right now!',
+    'What a wonderful day!',
+    'You\'re awesome!',
+    'Life is good!',
+    'I\'m feeling great!'
+  ],
+  content: [
+    'This is nice.',
+    'I\'m pretty content.',
+    'Things are going well.',
+    'I\'m feeling good.',
+    'No complaints here.'
+  ],
+  neutral: [
+    'Just another day.',
+    'I\'m okay, I guess.',
+    'Nothing special happening.',
+    'Meh, I\'m fine.',
+    'Just hanging out.'
+  ],
+  bored: [
+    'I\'m getting a bit bored...',
+    'Is there anything to do?',
+    'Kinda dull around here.',
+    'I could use some attention.',
+    'Not much going on.'
+  ],
+  sad: [
+    'I\'m feeling a bit sad.',
+    'Could use some cheering up.',
+    'Having a rough day.',
+    'I miss you.',
+    'I could really use a snack.'
+  ],
+  miserable: [
+    'I\'m really hungry...',
+    'Please don\'t forget about me!',
+    'I need some attention!',
+    'I\'m not feeling well at all.',
+    'Help! I need food!'
+  ]
 };
 
 /**
@@ -66,19 +120,19 @@ function Pet(type, name) {
 Pet.prototype.feed = function () {
   // TODO: Implement feed functionality
 
-  // Increases mood by 20 points, but caps at 100.
-  this.moodLevel = Math.min(100, this.moodLevel, + 20);
+  // TODO: Increase mood by 20 points but cap at 100
+  this.moodLevel = Math.min(100, this.moodLevel + 20);
 
-  // Update the last time pet was fed.
+  // TODO: Update the last fed time
   this.lastFed = new Date();
 
-  // Update the pet's state.
+  // TODO: Update the pet's state
   this.updateState();
 
-  // Make the pet say something about being fed.
+  // TODO: Make the pet say something about being fed
   this.speak('Yum! That was delicious!');
 
-  // Returns a message about feeding.
+  // TODO: Return a message about the feeding
   return `${this.name} has been fed and is ${this.state}!`;
 };
 
@@ -92,17 +146,15 @@ Pet.prototype.feed = function () {
 Pet.prototype.isHungry = function () {
   // TODO: Implement hunger check
 
-  // Calculate time since the pet was last fed.
+  // TODO: Calculate time since last fed
   const now = new Date();
-  const timeSinceLastFed = now - this.lastFed;
+  const timeSinceLastFed = now - this.lastFed; // Time in milliseconds
 
-  // Define the hunger threshold.
-  const hungerTime = 60 * 1000;
+  // TODO: Define hunger threshold (1 minute in milliseconds)
+  const hungerTime = 60 * 1000; // 1 minute in milliseconds
 
-  // Returns true if time since last fed is greater than the hunger threshold.
-  if (timeSinceLastFed > hungerTime) {
-    return true;
-  }
+  // TODO: Return true if time since last fed is greater than hunger threshold
+  return timeSinceLastFed > hungerTime;
 };
 
 /**
@@ -118,37 +170,37 @@ Pet.prototype.isHungry = function () {
 Pet.prototype.updateState = function () {
   // TODO: Implement state update
 
-  // Decreases mood if hungry
-  if (this.hungry()) {
+  // TODO: Decrease mood if hungry
+  if (this.isHungry()) {
     this.moodLevel = Math.max(0, this.moodLevel - 2);
   }
 
-  // Determine its mood state based on mood level ranges.
-  if (this.mood >= 90) {
+  // TODO: Determine state based on mood level ranges
+  if (this.moodLevel >= 90) {
     this.state = States.ECSTATIC;
-  } else if (this.mood >= 75) {
+  } else if (this.moodLevel >= 75) {
     this.state = States.HAPPY;
-  } else if (this.mood >= 60) {
+  } else if (this.moodLevel >= 60) {
     this.state = States.CONTENT;
-  } else if (this.mood >= 45) {
+  } else if (this.moodLevel >= 45) {
     this.state = States.NEUTRAL;
-  } else if (this.mood >= 30) {
+  } else if (this.moodLevel >= 30) {
     this.state = States.BORED;
-  } else if (this.mood >= 15) {
+  } else if (this.moodLevel >= 15) {
     this.state = States.SAD;
   } else {
     this.state = States.MISERABLE;
   }
 
-  // Occasionally make the pet speak a random thought.
-  if (Math.random() < 0.15 && !this.isSpeaking) {
-    this.speakingRandomThought();
+  // TODO: Occasionally make the pet speak a random thought
+  if (Math.random() < 0.15 && !this.isSpeaking) { // 15% chance to speak when mood updates
+    this.speakRandomThought();
   }
 
-  // Update pets appearance to match the new state.
+  // TODO: Update the pet's appearance to match the new state
   this.updateAppearance();
 
-  // Returns the current state.
+  // TODO: Return the current state
   return this.state;
 };
 
@@ -181,23 +233,23 @@ Pet.prototype.speakRandomThought = function () {
 Pet.prototype.speak = function (text) {
   // TODO: Implement speech functionality
 
-  // Clear any existing speech timeout.
+  // TODO: Clear any existing speech timeout
   if (this.speechTimeout) {
     clearTimeout(this.speechTimeout);
   }
 
-  // Update speech related properties.
+  // TODO: Update speech-related properties
   this.isSpeaking = true;
   this.speechText = text;
 
-  // Set timeout to clear speech bubble after four seconds.
+  // TODO: Set a timeout to clear the speech bubble after 4 seconds
   this.speechTimeout = setTimeout(() => {
     this.isSpeaking = false;
     this.speechText = '';
     this.updateAppearance();
   }, 4000);
 
-  // Update appearance to show the speech bubble.
+  // TODO: Update appearance to show the speech bubble
   this.updateAppearance();
 };
 
@@ -241,6 +293,47 @@ Pet.prototype.getStatusMessage = function () {
  */
 Pet.prototype.updateAppearance = function () {
   // TODO: Implement appearance updates
+  // Mappings for different pet types and moods
+  const petArt = {
+    [PetTypes.CAT]: {
+      [States.ECSTATIC]: '=^w^=',
+      [States.HAPPY]: '=^.^=',
+      [States.CONTENT]: '=0.0=',
+      [States.NEUTRAL]: '=o.o=',
+      [States.BORED]: '=-.-=',
+      [States.SAD]: '=>.<=',
+      [States.MISERABLE]: '=>A<='
+      // ...other states
+    },
+    // ...other pet types
+    [PetTypes.COW]: {
+      [States.ECSTATIC]: '*^o^*',
+      [States.HAPPY]: '*^w^*',
+      [States.CONTENT]: '*0o0*',
+      [States.NEUTRAL]: '*o.o*',
+      [States.BORED]: '*-.-*',
+      [States.SAD]: '*>.<*',
+      [States.MISERABLE]: '*>A<*'
+    },
+    [PetTypes.DOG]: {
+      [States.ECSTATIC]: '0^w^0',
+      [States.HAPPY]: '0^.^0',
+      [States.CONTENT]: '00.00',
+      [States.NEUTRAL]: '0o.o0',
+      [States.BORED]: '0-.-0',
+      [States.SAD]: '0>.<0',
+      [States.MISERABLE]: '0>A<0'
+    },
+    [PetTypes.BAT]: {
+      [States.ECSTATIC]: '^0O0^',
+      [States.HAPPY]: '^0U0^',
+      [States.CONTENT]: '^0u0^',
+      [States.NEUTRAL]: '^0.0^',
+      [States.BORED]: '^o_o^',
+      [States.SAD]: '^o,_,o^',
+      [States.MISERABLE]: '^>,A,<^'
+    }
+  };
 
   // TODO: Use the petArt object to get the right art for this pet type and state
   const typeArt = petArt[this.type] || petArt[PetTypes.COW];

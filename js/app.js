@@ -10,7 +10,20 @@ import { Pet, PetTypes, States } from './pet.js';
 
 // Application state variables
 let currentPet = null;
-const updateInterval = null;
+let updateInterval = null;
+
+// DOM elements
+const elements = {
+  petDisplay: document.getElementById('pet-display'),
+  statusDisplay: document.getElementById('status-display'),
+  petSelector: document.getElementById('pet-selector'),
+  nameInput: document.getElementById('pet-name'),
+  createButton: document.getElementById('create-pet'),
+  feedButton: document.getElementById('feed-pet'),
+  resetButton: document.getElementById('reset-pet'),
+  infoDisplay: document.getElementById('info-display'),
+  moodBar: document.getElementById('mood-bar')
+};
 
 /**
  * Initialize the application
@@ -24,19 +37,7 @@ const updateInterval = null;
 function initApp() {
   // TODO: Select DOM elements
 
-  // DOM elements
-  const elements = {
-    petDisplay: document.getElementById('pet-display'),
-    statusDisplay: document.getElementById('status-display'),
-    petSelector: document.getElementById('pet-selector'),
-    nameInput: document.getElementById('pet-name'),
-    createButton: document.getElementById('create-pet'),
-    feedButton: document.getElementById('feed-pet'),
-    resetButton: document.getElementById('reset-pet'),
-    infoDisplay: document.getElementById('info-display'),
-    moodBar: document.getElementById('mood-bar')
-  };
-
+  document.getElementById('pet-selector').innerHTML;
   // TODO: Populate pet selector dropdown
   populatePetSelector();
 
